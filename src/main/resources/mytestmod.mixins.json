@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "com.wishtoday.ts.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ExampleMixin",
+    "ExplosionBehaviorMixin",
+    "ExplosionMixin",
+    "FireBallEntityMixin",
+    "MinecraftServerMixin",
+    "ItemsFireMixin",
+    "TotemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "TotemParMixin"
+  ]
+}
