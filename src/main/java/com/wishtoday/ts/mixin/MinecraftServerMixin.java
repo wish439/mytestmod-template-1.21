@@ -1,7 +1,9 @@
 package com.wishtoday.ts.mixin;
 
 import com.google.common.base.Function;
+import com.wishtoday.ts.Command.CommandValue.RandomSkyBlock;
 import com.wishtoday.ts.Unit.*;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -47,17 +49,20 @@ public abstract class MinecraftServerMixin {
     protected abstract void pushTickLog(long tickStartTime);
 
     private static int Time = 0;
+    private static int ReFresh = 0;
+    private static final int REFRESHVALUE = 180;
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void tickMixin(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
-        Time++;
+        //Time++;
         MinecraftServer minecraftServer = ((MinecraftServer) (Object) this);
+        RandomSkyBlock.tick(Time,ReFresh,REFRESHVALUE,minecraftServer);
         if (!minecraftServer.getPlayerManager().getPlayerList().isEmpty()) {
             ServerPlayerEntity player = minecraftServer.getPlayerManager().getPlayerList().getFirst();
             World world = player.getWorld();
-            for (ServerPlayerEntity playerEntity : minecraftServer.getPlayerManager().getPlayerList()) {
+            /*for (ServerPlayerEntity playerEntity : minecraftServer.getPlayerManager().getPlayerList()) {
                 PlayerUnit.TitleActionbarForPlayer(playerEntity, "距离每5秒一次还有" + (100 - Time) + "gt");
-            }
+            }*/
 
 
             //if (!player.getWorld().isClient) PlayerUnit.TitleActionbarForPlayer(player, "距离每5秒一次还有" + (100 - Time) + "gt");

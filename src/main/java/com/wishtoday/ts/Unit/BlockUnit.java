@@ -1,9 +1,14 @@
 package com.wishtoday.ts.Unit;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlockUnit {
     /**
@@ -37,5 +42,12 @@ public class BlockUnit {
     }
     public static BlockPos EasyCreateBlockPos(double x,double y,double z){
         return new BlockPos((int)Math.round(x), (int)Math.round(y), (int)Math.round(z));
+    }
+    public static List<Block> getAllBlocks(){
+        List<Block> blocks = new ArrayList<>();
+        for (Block block : Registries.BLOCK) {
+            blocks.add(block);
+        }
+        return blocks;
     }
 }

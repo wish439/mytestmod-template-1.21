@@ -1,10 +1,9 @@
-package com.wishtoday.ts.Command;
+package com.wishtoday.ts.Command.CommandValue;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.command.CommandRegistryAccess;
 import  net.minecraft.command.argument.BlockStateArgument;
@@ -15,7 +14,6 @@ import  net.minecraft.server.command.CommandManager;
 import  net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
 import  net.minecraft.text.Text;
-import net.minecraft.util.Hand;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,7 +25,7 @@ public final class InPlayerSetBlockCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess access) {
                 dispatcher
                         .register(CommandManager.literal("inplayersetblock")
-                                //.requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(1))
+                                .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
                                 .then(
                                         CommandManager.argument("targets", EntityArgumentType.players())
                                                 .executes(context -> execute(context.getSource()))
