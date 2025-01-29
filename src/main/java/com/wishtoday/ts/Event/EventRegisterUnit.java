@@ -8,12 +8,13 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 
 public class EventRegisterUnit {
-    private static int Time = 0;
-    private static int ReFresh = 0;
-    private static final int REFRESHVALUE = 180;
     public EventRegisterUnit() {
         registerCommandEvents();
         registerTickEvents();
@@ -38,8 +39,16 @@ public class EventRegisterUnit {
             InPlayerSetBlockCommand.TickPlaceBlock();
             //RandomSkyBlock.tick(Time,ReFresh,REFRESHVALUE,server);
         });
-        /*ServerTickEvents.END_SERVER_TICK.register(server ->
-                RandomSkyBlock.tick(Time,ReFresh,REFRESHVALUE,server));*/
+        ServerTickEvents.START_SERVER_TICK.register(RandomSkyBlock::tick
+                );
+
+        RegistryEntryAddedCallback.
+                event(Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE).
+                register(((i,
+                           identifier,
+                           componentType) -> {
+
+        }));
     }
 
     private void registerServerLivingEvents() {

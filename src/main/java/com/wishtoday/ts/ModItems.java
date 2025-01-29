@@ -1,5 +1,6 @@
 package com.wishtoday.ts;
 
+import com.wishtoday.ts.Item.ModIfyCommandText;
 import com.wishtoday.ts.Item.RemoveHunger;
 import com.wishtoday.ts.Item.TeleportGround;
 import net.minecraft.item.Item;
@@ -13,5 +14,6 @@ public class ModItems{
     }
     public static final Item RemoveHunger = Registry.register(Registries.ITEM, Identifier.of("my-test_mod","removehunger"),new RemoveHunger(new Item.Settings()));
     public static final Item TELEPORTGROUND = Registry.register(Registries.ITEM,Identifier.of("my-test_mod","teleportground"),new TeleportGround(new Item.Settings()));
+    public static final Item GETNBTITEM = Registry.register(Registries.ITEM,Identifier.of("my-test_mod","modifycommandtext"),new ModIfyCommandText(new Item.Settings()));
     public static void init() {}
 }

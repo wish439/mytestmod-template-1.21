@@ -2,17 +2,14 @@ package com.wishtoday.ts.Command.CommandValue;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import com.sun.jdi.connect.Connector;
 import com.wishtoday.ts.Unit.BlockUnit;
 import com.wishtoday.ts.Unit.PlayerUnit;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.BlockPosArgumentType;
-import net.minecraft.command.argument.BlockStateArgumentType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,12 +22,15 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.Supplier;
 
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.server.command.CommandManager.argument;
 
 public class RandomSkyBlock {
+    private static int Time = 0;
+    private static int ReFresh = 0;
+    private static int REFRESHVALUE = 180;
+    private static final Random RANDOM = new Random();
     private static final Logger log = LoggerFactory.getLogger(RandomSkyBlock.class);
     private static HashMap<String, Iterable<BlockPos>> map = new HashMap<>();
 
@@ -52,8 +52,8 @@ public class RandomSkyBlock {
                         )
                 )
                 .then(literal("twopos")
-                        .then(argument("pos1", BlockStateArgumentType.blockState(access))
-                                .then(argument("pos2", BlockStateArgumentType.blockState(access))
+                        .then(argument("pos1", BlockPosArgumentType.blockPos())
+                                .then(argument("pos2", BlockPosArgumentType.blockPos())
                                         .then(argument("name2", StringArgumentType.string())
                                                 .executes(context ->
                                                         executeAddTwoBlockPosRegion(context,
@@ -73,8 +73,17 @@ public class RandomSkyBlock {
                         )
                 )
                 .then(literal("removeall")
-                .executes(context ->
-                        executeRemove(context))
+                        .executes(context ->
+                                executeRemove(context))
+                )
+                .then(literal("setrefreshtime")
+                        .then(argument("refreshtime", IntegerArgumentType.integer(0))
+                                .executes(context -> executeSetReFresh(context, IntegerArgumentType.getInteger(context, "refreshtime"))
+                                )
+                        )
+                )
+                .then(literal("list")
+                        .executes(RandomSkyBlock::executeGetList)
                 )
         );
     }
@@ -98,6 +107,7 @@ public class RandomSkyBlock {
 
     private static int executeRemove(CommandContext<ServerCommandSource> context, String name) {
         map.remove(name);
+        context.getSource().sendFeedback(() -> Text.of("Removed " + name), true);
         return Command.SINGLE_SUCCESS;
     }
 
@@ -106,22 +116,27 @@ public class RandomSkyBlock {
         return Command.SINGLE_SUCCESS;
     }
 
-    public static void tick(int Time, int ReFresh, int ReFreshValue, MinecraftServer server) {
-        Time++;
-        if (Time % 20 == 0) {
+    public static void tick(MinecraftServer server) {
+        if (!map.isEmpty()) {
+            Time++;
+            if (Time % 20 == 0) {
+                Time = 0;
+                ReFresh++;
+            }
+        } else {
             Time = 0;
-            ReFresh++;
+            ReFresh = 0;
         }
-        if (!server.getPlayerManager().getPlayerList().isEmpty()) {
+        if (!server.getPlayerManager().getPlayerList().isEmpty() && !map.isEmpty()) {
             ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayerList().getFirst();
-            PlayerUnit.TitleActionbarForPlayer(playerEntity,Time + "gt," + ReFresh + "gt2," + ReFreshValue + "gt3");
+            PlayerUnit.TitleActionbarForPlayer(playerEntity, "距离下次刷新还有" + (REFRESHVALUE - ReFresh) + "秒");
         }
-        for (Map.Entry<String, Iterable<BlockPos>> IterableEntry : map.entrySet()) {
-            Iterable<BlockPos> iterate = IterableEntry.getValue();
-            if (ReFresh == ReFreshValue) {
-                Random r = new Random();
-                Block block = BlockUnit.getAllBlocks().get(r.nextInt(0, BlockUnit.getAllBlocks().size()));
-                World world = server.getPlayerManager().getPlayerList().getFirst().getWorld();
+        if (ReFresh == REFRESHVALUE) {
+            ReFresh = 0;
+            World world = server.getPlayerManager().getPlayerList().getFirst().getWorld();
+            for (Map.Entry<String, Iterable<BlockPos>> IterableEntry : map.entrySet()) {
+                Iterable<BlockPos> iterate = IterableEntry.getValue();
+                Block block = BlockUnit.getAllBlocks().get(RANDOM.nextInt(0, BlockUnit.getAllBlocks().size()));
                 for (BlockPos pos : iterate) {
                     world.setBlockState(pos, block.getDefaultState());
                 }
@@ -135,6 +150,20 @@ public class RandomSkyBlock {
             System.out.println(map);
             context.getSource().sendFeedback(() -> Text.of("已将所选区域设置到" + name + "名字"), true);
             return Command.SINGLE_SUCCESS;
+        }
+        return -1;
+    }
+
+    private static int executeSetReFresh(CommandContext<ServerCommandSource> context, int value) {
+        REFRESHVALUE = value;
+        context.getSource().sendFeedback(() -> Text.of("刷新时间已设置为 : " + REFRESHVALUE), false);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private static int executeGetList(CommandContext<ServerCommandSource> context) {
+        for (Map.Entry<String, Iterable<BlockPos>> IterableEntry : map.entrySet()) {
+            String key = IterableEntry.getKey();
+            context.getSource().sendFeedback(() -> Text.of(key), true);
         }
         return -1;
     }
