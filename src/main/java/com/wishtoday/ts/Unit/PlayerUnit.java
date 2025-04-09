@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 public class PlayerUnit {
+    private PlayerUnit(){}
     public static PlayerEntity getPlayerFormWorld(World world){
         return world.getPlayers().getFirst();
     }

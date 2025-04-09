@@ -6,10 +6,15 @@
     "ExampleMixin",
     "ExplosionBehaviorMixin",
     "ExplosionMixin",
+    "ExplosiveProjectileEntityMixin",
     "FireBallEntityMixin",
-    "MinecraftServerMixin",
+    "FireBallMixin",
     "ItemsFireMixin",
-    "TotemMixin"
+    "MinecraftServerMixin",
+    "RangedWeaponItemMixin",
+    "TotemMixin",
+    "Entity.FishingBobberEntityMixin",
+    "HelpEvent.TimeEventsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

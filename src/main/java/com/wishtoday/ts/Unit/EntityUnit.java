@@ -20,7 +20,10 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class EntityUnit {
-    public static void KillCustomEntity(ServerPlayerEntity player, int limit, Class<? extends Entity> cls){
+    private EntityUnit() {
+    }
+
+    public static void KillCustomEntity(ServerPlayerEntity player, int limit, Class<? extends Entity> cls) {
         World world = player.getWorld();
         Vec3d Box3DFirst = new Vec3d(
                 player.getX() + limit,
@@ -41,8 +44,9 @@ public class EntityUnit {
             entity.kill();
         }
     }
-    public static boolean NoBabyInMobEntity(MobEntity entity){
-        return  ((entity instanceof PassiveEntity)
+
+    public static boolean NoBabyInMobEntity(MobEntity entity) {
+        return ((entity instanceof PassiveEntity)
                 && !(entity instanceof FrogEntity)
                 && !(entity instanceof ParrotEntity))
                 || entity instanceof ZombieEntity

@@ -1,16 +1,25 @@
 package com.wishtoday.ts.Unit;
 
+import com.wishtoday.ts.Mytestmod;
+import net.fabricmc.fabric.api.networking.v1.S2CPlayChannelEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BlockUnit {
+    private BlockUnit(){}
     /**
      * 查找从玩家当前 Y 坐标开始，第一个满足从该 Y 坐标到 319 之间所有方块都是空气方块的 Y 坐标
      * @param player 玩家实体
@@ -48,6 +57,17 @@ public class BlockUnit {
         for (Block block : Registries.BLOCK) {
             blocks.add(block);
         }
+        //Mytestmod.LOGGER.info(blocks.size() + "");
         return blocks;
+    }
+    public static List<Block> getAllHasBlockItems() {
+        List<Block> blockItems = new ArrayList<>();
+        for (Item item : Registries.ITEM) {
+            if (item instanceof BlockItem blockItem) {
+                blockItems.add(blockItem.getBlock());
+            }
+        }
+        //Mytestmod.LOGGER.info(blockItems.size() + "");
+        return blockItems;
     }
 }

@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ExplosionBehaviorMixin {
     @Inject(method = "getKnockbackModifier",at = @At("TAIL"), cancellable = true)
     private void MakeReturn(Entity entity, CallbackInfoReturnable<Float> cir){
-        cir.setReturnValue(1.78F);
+        cir.setReturnValue(1.1F);
     }
+
 }

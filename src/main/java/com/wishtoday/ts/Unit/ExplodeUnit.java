@@ -14,25 +14,26 @@ import net.minecraft.world.explosion.Explosion;
 import java.util.List;
 
 public class ExplodeUnit {
+    private ExplodeUnit(){}
 
     /**
-     此方法用于创造一个简单的爆炸，使用会在player的位置产生一个power威力的爆炸，这个爆炸CreateFire产生火焰
+     此方法用于创造一个简单的爆炸，使用会在player的位置产生一个power威力的爆炸，这个爆炸CreateFire产生火焰,如果DamageToPlayer为真将给予Player DamageValue点伤害
      */
-    public static void CreateEasyExplode(PlayerEntity player,float power,boolean CreateFire,boolean DamageToPlayer,float DamageValue){
-        World world = player.getWorld();
-        Explosion explosion = player.getWorld().createExplosion(
-                player,
+    public static void CreateEasyExplode(Entity entity,float power,boolean CreateFire,boolean Damage,float DamageValue){
+        World world = entity.getWorld();
+        Explosion explosion = entity.getWorld().createExplosion(
+                entity,
                 world.getDamageSources().fall(),
                 null,
-                player.getX(),
-                player.getY(),
-                player.getZ(),
+                entity.getX(),
+                entity.getY(),
+                entity.getZ(),
                 power,
                 CreateFire,
                 World.ExplosionSourceType.TNT
         );
-        if (DamageToPlayer){
-            player.damage(world.getDamageSources().explosion(explosion),DamageValue);
+        if (Damage){
+            entity.damage(world.getDamageSources().explosion(explosion),DamageValue);
         }
     }
 }
