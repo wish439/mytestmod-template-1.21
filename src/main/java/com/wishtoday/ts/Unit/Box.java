@@ -4,7 +4,7 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.Objects;
 import java.util.function.Consumer;
-
+//6
 public class Box {
     private int x, y, z;
     private int x2, y2, z2;
