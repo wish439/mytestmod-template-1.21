@@ -2,12 +2,16 @@ package com.wishtoday.ts;
 
 import com.wishtoday.ts.Block.Register.BlockEntityTypeRegister;
 import com.wishtoday.ts.Block.Register.BlockRegister;
+import com.wishtoday.ts.Client.KeyBindings.InputKeyBindings;
 import com.wishtoday.ts.Command.CommandValue.ModifyToBedrockCommand;
+import com.wishtoday.ts.Component.RegisterDataComponentTypes;
 import com.wishtoday.ts.Effects.RegisterStatusEffect;
 import com.wishtoday.ts.Enchant.RegisterEnchantmentEffects;
 import com.wishtoday.ts.Enchant.RegisterEnchantments;
 import com.wishtoday.ts.Event.EventRegisterUnit;
 import com.wishtoday.ts.Item.ModItems;
+import com.wishtoday.ts.NetWorking.Receive.RegisterReceive;
+import com.wishtoday.ts.Tags.ModItemTags;
 import com.wishtoday.ts.Unit.BlockUnit;
 import com.wishtoday.ts.GameRule.ModGameRules;
 import net.fabricmc.api.ModInitializer;
@@ -23,10 +27,9 @@ public class Mytestmod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        // This code runs as soon as Minecraft is in a mod-load-ready state.
-        // However, some things (like resources) may still be uninitialized.
-        // Proceed with mild caution.
-        ModifyToBedrockCommand.receiverPos();
+        InputKeyBindings.register();
+        ModItemTags.init();
+        RegisterDataComponentTypes.init();
         RegisterStatusEffect.init();
         RegisterEnchantmentEffects.init();
         RegisterEnchantments.register();
@@ -34,10 +37,12 @@ public class Mytestmod implements ModInitializer {
         BlockEntityTypeRegister.init();
         ModGameRules.init();
         BlockUnit.getAllHasBlockItems();
-        stats.inStatsit();
+        stats.initStats();
         ModItems.init();
         new EventRegisterUnit();
+        RegisterReceive.register();
+        InputKeyBindings.ListeningEvents();
 
-        LOGGER.info("Hello Fabric world!");
+        //LOGGER.info("Hello Fabric world!");
     }
 }

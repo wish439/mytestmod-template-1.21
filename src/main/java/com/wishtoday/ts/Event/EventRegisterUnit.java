@@ -1,5 +1,6 @@
 package com.wishtoday.ts.Event;
 
+import com.wishtoday.ts.Client.Event.RegisterEvent;
 import com.wishtoday.ts.Command.CommandValue.InPlayerSetBlockCommand;
 import com.wishtoday.ts.Command.CommandValue.ModifyToBedrockCommand;
 import com.wishtoday.ts.Command.CommandValue.RandomSkyBlock;
@@ -7,7 +8,9 @@ import com.wishtoday.ts.Death;
 import com.wishtoday.ts.Enchant.Custom.TestEnchantmentEffect;
 import com.wishtoday.ts.Event.EventValue.EntityDeathSummonBaby;
 import com.wishtoday.ts.Event.EventValue.VillagerInfTrade;
+import com.wishtoday.ts.Event.RegisterEvent.PlayerInteractEvents;
 import com.wishtoday.ts.Event.RegisterEvent.TimeEvents;
+import com.wishtoday.ts.Item.Custom.RevengeItem;
 import com.wishtoday.ts.Mytestmod;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -30,6 +33,7 @@ public class EventRegisterUnit {
         registerUseEntity();
         registerTimeEvent();
         registerPlayerQuitEvents();
+        registerPlayerInteractEvents();
     }
 
     //注册命令
@@ -99,5 +103,8 @@ public class EventRegisterUnit {
                     ServerPlayerEntity player = playNetworkHandler.getPlayer();
                     ModifyToBedrockCommand.undoBlock(player);
                 });
+    }
+    private void registerPlayerInteractEvents() {
+        PlayerInteractEvents.ATTACK_ENTITY.register(RevengeItem::onAttack);
     }
 }

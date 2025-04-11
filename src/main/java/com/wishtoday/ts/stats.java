@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class stats {
     public static Set<EntityType<?>> canSummonMonsters = new HashSet<>();
-    public static void inStatsit() {
+    public static void initStats() {
         setStats.canSummonMonsters(canSummonMonsters);
     }
 }

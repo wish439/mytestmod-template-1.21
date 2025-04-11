@@ -1,16 +1,12 @@
 package com.wishtoday.ts.Command.CommandValue;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.wishtoday.ts.NetWorking.ModifyToBedrock.ModifyToBedrockPlayC2SPayload;
 import com.wishtoday.ts.Unit.Objs.PlayerAndStatePos;
 import com.wishtoday.ts.Unit.Objs.WorldPos;
 import com.wishtoday.ts.Unit.Objs.WorldStatePos;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Blocks;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -35,18 +31,7 @@ public class ModifyToBedrockCommand {
                         ));
     }
 
-    public static void receiverPos() {
-        PayloadTypeRegistry.playC2S().register(ModifyToBedrockPlayC2SPayload.ID,ModifyToBedrockPlayC2SPayload.CODEC);
-        ServerPlayNetworking.registerGlobalReceiver(ModifyToBedrockPlayC2SPayload.ID, (modifyToBedrockPlayC2SPayload, context) -> {
-            BlockPos pos = modifyToBedrockPlayC2SPayload.pos();
-            ServerPlayerEntity player = context.player();
-            context.server().execute(() -> playerAndStatePosList.forEach(playerAndStatePos -> {
-                if (playerAndStatePos.getPlayer().equals(player)) {
-                    playerAndStatePos.setTargetPos(pos);
-                }
-            }));
-        });
-    }
+
 
     private static int execute(ServerPlayerEntity player, ServerCommandSource source) {
         Iterator<PlayerAndStatePos> iterator = playerAndStatePosList.iterator();

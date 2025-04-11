@@ -11,9 +11,9 @@
     "FireBallMixin",
     "ItemsFireMixin",
     "MinecraftServerMixin",
-    "RangedWeaponItemMixin",
     "TotemMixin",
     "Entity.FishingBobberEntityMixin",
+    "HelpEvent.PlayerInteractEventsMixin",
     "HelpEvent.TimeEventsMixin"
   ],
   "injectors": {

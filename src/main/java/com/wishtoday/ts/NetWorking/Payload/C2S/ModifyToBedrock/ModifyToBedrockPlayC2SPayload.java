@@ -1,4 +1,4 @@
-package com.wishtoday.ts.NetWorking.ModifyToBedrock;
+package com.wishtoday.ts.NetWorking.Payload.C2S.ModifyToBedrock;
 
 import com.wishtoday.ts.Mytestmod;
 import net.minecraft.network.PacketByteBuf;

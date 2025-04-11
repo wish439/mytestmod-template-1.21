@@ -12,9 +12,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class MiningOreBlockEntity extends BlockEntity {
+    private int SpreadDistance = 1;
     private BlockPos PlacePos;
     private BlockPos blockPos;
     private int miningTime = 20;
+
     public MiningOreBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityTypeRegister.MINING_ORE_BLOCK_ENTITY, pos, state);
         PlacePos = pos.up();
@@ -56,20 +58,27 @@ public class MiningOreBlockEntity extends BlockEntity {
             BlockPos pos1 = blockEntity.getBlockPos().down();
             blockEntity.setBlockPos(pos1);
             if (pos1.getY() == -64) world.setBlockState(pos, Blocks.AIR.getDefaultState());
-            BlockState blockState = world.getBlockState(pos1);
-            if (!(blockState.isIn(BlockTags.IRON_ORES)
-            || blockState.isIn(BlockTags.GOLD_ORES)
-            || blockState.isIn(BlockTags.DIAMOND_ORES)
-            || blockState.isIn(BlockTags.EMERALD_ORES)
-            || blockState.isIn(BlockTags.COAL_ORES)
-            || blockState.isIn(BlockTags.LAPIS_ORES)
-            || blockState.isIn(BlockTags.COPPER_ORES)
-            || blockState.isIn(BlockTags.REDSTONE_ORES))) {
-                world.breakBlock(pos1, true);
-            } else {
-                world.setBlockState(blockEntity.getPlacePos(), blockState);
-                world.breakBlock(pos1, false);
-                blockEntity.setPlacePos(blockEntity.getPlacePos().up());
+            int spreadDistance = blockEntity.getSpreadDistance();
+            Iterable<BlockPos> iterate = BlockPos.iterate(
+                    new BlockPos(pos1.add(spreadDistance, 0, spreadDistance)),
+                    new BlockPos(pos1.add(-spreadDistance, 0, -spreadDistance))
+            );
+            for (BlockPos blockPos : iterate) {
+                BlockState blockState = world.getBlockState(blockPos);
+                if (!(blockState.isIn(BlockTags.IRON_ORES)
+                        || blockState.isIn(BlockTags.GOLD_ORES)
+                        || blockState.isIn(BlockTags.DIAMOND_ORES)
+                        || blockState.isIn(BlockTags.EMERALD_ORES)
+                        || blockState.isIn(BlockTags.COAL_ORES)
+                        || blockState.isIn(BlockTags.LAPIS_ORES)
+                        || blockState.isIn(BlockTags.COPPER_ORES)
+                        || blockState.isIn(BlockTags.REDSTONE_ORES))) {
+                    world.breakBlock(blockPos, true);
+                } else {
+                    world.setBlockState(blockEntity.getPlacePos(), blockState);
+                    world.breakBlock(blockPos, false);
+                    blockEntity.setPlacePos(blockEntity.getPlacePos().up());
+                }
             }
         }
     }
@@ -86,7 +95,15 @@ public class MiningOreBlockEntity extends BlockEntity {
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
         this.miningTime = nbt.getInt("MiningTime");
-        this.PlacePos = NbtHelper.toBlockPos(nbt,"PlacePos").orElse(null);
-        this.blockPos = NbtHelper.toBlockPos(nbt,"BlockPos").orElse(null);
+        this.PlacePos = NbtHelper.toBlockPos(nbt, "PlacePos").orElse(null);
+        this.blockPos = NbtHelper.toBlockPos(nbt, "BlockPos").orElse(null);
+    }
+
+    public int getSpreadDistance() {
+        return SpreadDistance;
+    }
+
+    public void setSpreadDistance(int spreadDistance) {
+        SpreadDistance = spreadDistance;
     }
 }

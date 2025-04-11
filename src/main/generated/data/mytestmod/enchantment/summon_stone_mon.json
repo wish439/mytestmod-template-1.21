@@ -1,14 +1,14 @@
 {
   "anvil_cost": 1,
   "description": {
-    "translate": "enchantment.mytestmod.testenchant"
+    "translate": "enchantment.mytestmod.summon_stone_mon"
   },
   "effects": {
     "minecraft:post_attack": [
       {
         "affected": "victim",
         "effect": {
-          "type": "mytestmod:testenchant_effect"
+          "type": "mytestmod:summon_stone_mon_effect"
         },
         "enchanted": "attacker"
       }
@@ -18,7 +18,7 @@
     "base": 12,
     "per_level_above_first": 11
   },
-  "max_level": 255,
+  "max_level": 5,
   "min_cost": {
     "base": 1,
     "per_level_above_first": 11
@@ -26,6 +26,6 @@
   "slots": [
     "mainhand"
   ],
-  "supported_items": "#mytestmod:enchantable/bow_weapons",
+  "supported_items": "#minecraft:enchantable/bow",
   "weight": 10
 }

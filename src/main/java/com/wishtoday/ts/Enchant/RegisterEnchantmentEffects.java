@@ -1,6 +1,7 @@
 package com.wishtoday.ts.Enchant;
 
 import com.mojang.serialization.MapCodec;
+import com.wishtoday.ts.Enchant.Custom.SummonStoneMonEnchantmentEffect;
 import com.wishtoday.ts.Enchant.Custom.TestEnchantmentEffect;
 import com.wishtoday.ts.Mytestmod;
 import net.minecraft.enchantment.Enchantment;
@@ -13,6 +14,7 @@ import net.minecraft.util.Identifier;
 
 public class RegisterEnchantmentEffects {
     public static MapCodec<TestEnchantmentEffect> TESTENCHANT_EFFECT = register("testenchant_effect", TestEnchantmentEffect.CODEC);
+    public static MapCodec<SummonStoneMonEnchantmentEffect> SUMMON_STONE_MON_EFFECT = register("summon_stone_mon_effect", SummonStoneMonEnchantmentEffect.CODEC);
 
     private static RegistryKey<Enchantment> of(String path) {
         Identifier id = Identifier.of(Mytestmod.MOD_ID, path);
