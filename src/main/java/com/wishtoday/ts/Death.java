@@ -1,9 +1,6 @@
 package com.wishtoday.ts;
 
-import com.wishtoday.ts.Test.BlockBuild;
-import com.wishtoday.ts.Test.BlockPosXZ;
 import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -15,21 +12,16 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import org.joml.Vector3d;
 
 public class Death {
-    public static boolean TryUseTotemMod(DamageSource source, PlayerEntity player){
+    public static boolean TryUseTotemMod(DamageSource source, PlayerEntity player) {
         if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
-        } else
-        {
+        } else {
             ItemStack itemStack = null;
             PlayerInventory Inventory = player.getInventory();
-            for (int i = 0;i < Inventory.size(); ++i) {
+            for (int i = 0; i < Inventory.size(); ++i) {
                 ItemStack itemStack2 = (Inventory.getStack(i));
                 if (itemStack2.isOf(Items.TOTEM_OF_UNDYING)) {
                     itemStack = itemStack2.copy();

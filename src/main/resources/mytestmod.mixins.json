@@ -9,17 +9,21 @@
     "ExplosiveProjectileEntityMixin",
     "FireBallEntityMixin",
     "FireBallMixin",
-    "ItemsFireMixin",
     "MinecraftServerMixin",
     "TotemMixin",
+    "Entity.FireballEntityMixin",
     "Entity.FishingBobberEntityMixin",
     "HelpEvent.PlayerInteractEventsMixin",
-    "HelpEvent.TimeEventsMixin"
+    "HelpEvent.TimeEventsMixin",
+    "Item.FireChargeItemMixin",
+    "Networking.ServerPlayNetworkHandlerMixin",
+    "Server.Command.EnchantMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "TotemParMixin"
+    "TotemParMixin",
+    "Entity.ClientPlayerEntityMixin"
   ]
 }

@@ -6,10 +6,14 @@ import com.wishtoday.ts.Item.Custom.RemoveHunger;
 import com.wishtoday.ts.Item.Custom.RevengeItem;
 import com.wishtoday.ts.Item.Custom.TeleportGround;
 import com.wishtoday.ts.Mytestmod;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Identifier;
 
 public class ModItems{

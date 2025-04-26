@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class MiningOreBlockEntity extends BlockEntity {
-    private int SpreadDistance = 1;
+    private int SpreadDistance = 3;
     private BlockPos PlacePos;
     private BlockPos blockPos;
     private int miningTime = 20;
@@ -57,7 +57,7 @@ public class MiningOreBlockEntity extends BlockEntity {
             blockEntity.setMiningTime(20);
             BlockPos pos1 = blockEntity.getBlockPos().down();
             blockEntity.setBlockPos(pos1);
-            if (pos1.getY() == -64) world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            if (pos1.getY() == world.getDimension().minY()) world.setBlockState(pos, Blocks.AIR.getDefaultState());
             int spreadDistance = blockEntity.getSpreadDistance();
             Iterable<BlockPos> iterate = BlockPos.iterate(
                     new BlockPos(pos1.add(spreadDistance, 0, spreadDistance)),
@@ -78,6 +78,9 @@ public class MiningOreBlockEntity extends BlockEntity {
                     world.setBlockState(blockEntity.getPlacePos(), blockState);
                     world.breakBlock(blockPos, false);
                     blockEntity.setPlacePos(blockEntity.getPlacePos().up());
+                    if (blockEntity.getPlacePos().getY() == world.getHeight() - 1)
+                        blockEntity.setPlacePos(
+                                new BlockPos(blockEntity.getPlacePos().getX() + 1, pos.getY() + 1 , blockEntity.getPlacePos().getZ()));
                 }
             }
         }
@@ -85,6 +88,7 @@ public class MiningOreBlockEntity extends BlockEntity {
 
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        nbt.putInt("SpreadDistance",this.SpreadDistance);
         nbt.putInt("MiningTime", this.miningTime);
         nbt.put("PlacePos", NbtHelper.fromBlockPos(this.PlacePos));
         nbt.put("BlockPos", NbtHelper.fromBlockPos(this.blockPos));
@@ -94,9 +98,10 @@ public class MiningOreBlockEntity extends BlockEntity {
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
+        this.SpreadDistance = nbt.getInt("SpreadDistance");
         this.miningTime = nbt.getInt("MiningTime");
-        this.PlacePos = NbtHelper.toBlockPos(nbt, "PlacePos").orElse(null);
-        this.blockPos = NbtHelper.toBlockPos(nbt, "BlockPos").orElse(null);
+        this.PlacePos = NbtHelper.toBlockPos(nbt, "PlacePos").orElse(this.getPos().up());
+        this.blockPos = NbtHelper.toBlockPos(nbt, "BlockPos").orElse(this.getPos().down());
     }
 
     public int getSpreadDistance() {

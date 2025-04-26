@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,24 +28,26 @@ public class ModifyToBedrockCommand {
                         .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
                         .then(
                                 CommandManager.argument("targets", EntityArgumentType.players())
-                                        .executes(context -> execute(EntityArgumentType.getPlayer(context, "targets"), context.getSource()))
+                                        .executes(context -> execute(EntityArgumentType.getPlayers(context, "targets"), context.getSource()))
                         ));
     }
 
 
 
-    private static int execute(ServerPlayerEntity player, ServerCommandSource source) {
-        Iterator<PlayerAndStatePos> iterator = playerAndStatePosList.iterator();
-        while (iterator.hasNext()) {
-            PlayerAndStatePos playerAndStatePos = iterator.next();
-            if (playerAndStatePos.getPlayer().equals(player)) {
-                source.sendFeedback(() -> Text.of("已将" + player.getDisplayName().getString() + "的变基岩关闭"), false);
-                undoBlock(player);
-                return 1;
+    private static int execute(Collection<ServerPlayerEntity> players, ServerCommandSource source) {
+        for (ServerPlayerEntity player : players) {
+            Iterator<PlayerAndStatePos> iterator = playerAndStatePosList.iterator();
+            while (iterator.hasNext()) {
+                PlayerAndStatePos playerAndStatePos = iterator.next();
+                if (playerAndStatePos.getPlayer().equals(player)) {
+                    source.sendFeedback(() -> Text.of("已将" + player.getDisplayName().getString() + "的变基岩关闭"), false);
+                    undoBlock(player);
+                    return 1;
+                }
             }
+            playerAndStatePosList.add(new PlayerAndStatePos(player, new ArrayList<>()));
+            source.sendFeedback(() -> Text.of("已将" + player.getDisplayName().getString() + "的变基岩打开"), false);
         }
-        playerAndStatePosList.add(new PlayerAndStatePos(player, new ArrayList<>()));
-        source.sendFeedback(() -> Text.of("已将" + player.getDisplayName().getString() + "的变基岩打开"), false);
         return 1;
     }
 

@@ -4,6 +4,7 @@ import com.wishtoday.ts.Client.Event.RegisterEvent;
 import com.wishtoday.ts.Command.CommandValue.InPlayerSetBlockCommand;
 import com.wishtoday.ts.Command.CommandValue.ModifyToBedrockCommand;
 import com.wishtoday.ts.Command.CommandValue.RandomSkyBlock;
+import com.wishtoday.ts.Command.CommandValue.WalkDamageCommand;
 import com.wishtoday.ts.Death;
 import com.wishtoday.ts.Enchant.Custom.TestEnchantmentEffect;
 import com.wishtoday.ts.Event.EventValue.EntityDeathSummonBaby;
@@ -19,6 +20,7 @@ import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -44,6 +46,7 @@ public class EventRegisterUnit {
             RandomSkyBlock.register(dispatcher, access);
             InPlayerSetBlockCommand.register(dispatcher, access);
             ModifyToBedrockCommand.register(dispatcher);
+            WalkDamageCommand.register(dispatcher);
         });
     }
 
@@ -73,7 +76,7 @@ public class EventRegisterUnit {
     //注册服务器生物事件
     private void registerServerLivingEvents() {
         ServerLivingEntityEvents.ALLOW_DEATH.register(((entity, damageSource, damageAmount) -> {
-            if (entity instanceof PlayerEntity) return !Death.TryUseTotemMod(damageSource, (PlayerEntity) entity);
+            if (entity instanceof PlayerEntity player) return !Death.TryUseTotemMod(damageSource,player);
             EntityDeathSummonBaby.execute(entity);
             return true;
         }));

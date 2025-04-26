@@ -24,6 +24,6 @@ public abstract class TotemMixin extends Entity {
     @Inject(method = "tryUseTotem",at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;)Z"))
     private void TryUseTotemMixin(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
         this.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 800, 2));
-        this.sendMessage(Text.of("这是原版的处理逻辑"));
+        //this.sendMessage(Text.of("这是原版的处理逻辑"));
     }
 }
