@@ -1,0 +1,8 @@
+{
+  "item.mytestmod.remove_hunger": "remove hunger",
+  "item.mytestmod.teleport_ground": "teleport ground",
+  "block.mytestmod.mining_ore_block": "mining ore block",
+  "item.mytestmod.make_love": "breed",
+  "item.mytestmod.revenge": "revenge",
+  "itemgroup.mytestmodgroup": "mytestmodgroup"
+}

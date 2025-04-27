@@ -7,6 +7,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.wishtoday.ts.Mytestmod;
 import com.wishtoday.ts.Unit.BlockUnit;
+import com.wishtoday.ts.Unit.IdentifierUnit;
 import com.wishtoday.ts.Unit.PlayerUnit;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandRegistryAccess;
@@ -37,7 +38,7 @@ public class RandomSkyBlock {
     private static HashMap<String, Iterable<BlockPos>> map = new HashMap<>();
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess access) {
-        dispatcher.register(literal("randomskyblock")
+        dispatcher.register(literal(IdentifierUnit.getModString("randomskyblock"))
                 .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
                 .then(literal("singlepos")
                         .then(argument("pos", BlockPosArgumentType.blockPos())

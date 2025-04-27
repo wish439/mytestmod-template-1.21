@@ -9,6 +9,7 @@ import com.wishtoday.ts.Effects.RegisterStatusEffect;
 import com.wishtoday.ts.Enchant.RegisterEnchantmentEffects;
 import com.wishtoday.ts.Enchant.RegisterEnchantments;
 import com.wishtoday.ts.Event.EventRegisterUnit;
+import com.wishtoday.ts.Item.ModItemGroup;
 import com.wishtoday.ts.Item.ModItems;
 import com.wishtoday.ts.NetWorking.Payload.PayloadRegister;
 import com.wishtoday.ts.NetWorking.Receive.RegisterReceive;
@@ -28,6 +29,7 @@ public class Mytestmod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ModItemGroup.init();
         PayloadRegister.registerPayload();
         InputKeyBindings.register();
         ModItemTags.init();

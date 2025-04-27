@@ -1,6 +1,7 @@
 package com.wishtoday.ts.Command.CommandValue;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.wishtoday.ts.Unit.IdentifierUnit;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandManager;
@@ -16,7 +17,7 @@ public class WalkDamageCommand {
     public static List<PlayerEntity> walkDamageTarget = new ArrayList<>();
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.
-                register(CommandManager.literal("walkdamage")
+                register(CommandManager.literal(IdentifierUnit.getModString("walkdamage"))
                         .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
                         .then(
                                 CommandManager.argument("targets", EntityArgumentType.players())

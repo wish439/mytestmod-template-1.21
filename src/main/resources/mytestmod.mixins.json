@@ -3,13 +3,11 @@
   "package": "com.wishtoday.ts.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ExampleMixin",
     "ExplosionBehaviorMixin",
     "ExplosionMixin",
     "ExplosiveProjectileEntityMixin",
     "FireBallEntityMixin",
     "FireBallMixin",
-    "MinecraftServerMixin",
     "TotemMixin",
     "Entity.FireballEntityMixin",
     "Entity.FishingBobberEntityMixin",

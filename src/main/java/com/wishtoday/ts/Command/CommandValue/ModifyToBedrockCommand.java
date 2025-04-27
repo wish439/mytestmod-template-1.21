@@ -1,6 +1,7 @@
 package com.wishtoday.ts.Command.CommandValue;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.wishtoday.ts.Unit.IdentifierUnit;
 import com.wishtoday.ts.Unit.Objs.PlayerAndStatePos;
 import com.wishtoday.ts.Unit.Objs.WorldPos;
 import com.wishtoday.ts.Unit.Objs.WorldStatePos;
@@ -24,7 +25,7 @@ public class ModifyToBedrockCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.
-                register(CommandManager.literal("modifytobedrock")
+                register(CommandManager.literal(IdentifierUnit.getModString("modifytobedrock"))
                         .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
                         .then(
                                 CommandManager.argument("targets", EntityArgumentType.players())

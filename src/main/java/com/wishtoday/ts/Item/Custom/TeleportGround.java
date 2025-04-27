@@ -17,7 +17,7 @@ public class TeleportGround extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         int y = BlockUnit.getNotAirY(user);
-        user.sendMessage(Text.of("" + (y + 1)));
+        //user.sendMessage(Text.of("" + (y + 1)));
         user.teleport(user.getX(),y + 1 ,user.getZ(),false);
         return TypedActionResult.success(user.getStackInHand(hand));
     }

@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import com.wishtoday.ts.Unit.IdentifierUnit;
 import net.minecraft.block.BlockState;
 import net.minecraft.command.CommandRegistryAccess;
 import  net.minecraft.command.argument.BlockStateArgument;
@@ -24,7 +25,7 @@ public final class InPlayerSetBlockCommand {
     private static HashMap<PlayerEntity, BlockState> map = new HashMap<>();
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess access) {
                 dispatcher
-                        .register(CommandManager.literal("inplayersetblock")
+                        .register(CommandManager.literal(IdentifierUnit.getModString("inplayersetblock"))
                                 .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
                                 .then(
                                         CommandManager.argument("targets", EntityArgumentType.players())

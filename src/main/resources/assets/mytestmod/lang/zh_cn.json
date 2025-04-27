@@ -1,0 +1,8 @@
+{
+  "item.mytestmod.remove_hunger": "消除饥饿值器",
+  "item.mytestmod.teleport_ground": "传送地面器",
+  "block.mytestmod.mining_ore_block": "挖矿方块",
+  "item.mytestmod.make_love": "繁殖器",
+  "item.mytestmod.revenge": "仇恨器",
+  "itemgroup.mytestmodgroup": "物品栏"
+}
